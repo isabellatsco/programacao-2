@@ -2,9 +2,9 @@
   "name": "http_server2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node index",
+    "start": "node src/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
