@@ -1,10 +1,13 @@
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
 
-const home = fs.readFileSync('home.html');
-const quem_somos = fs.readFileSync('quem_somos.html');
-const fale_conosco = fs.readFileSync('fale_conosco.html');
-const not_found_404 = fs.readFileSync('not_found_404.html');
+const publicDir = path.join(__dirname, 'public');
+
+const home = fs.readFileSync(path.join(publicDir, 'home.html'));
+const quem_somos = fs.readFileSync(path.join(publicDir, 'quem_somos.html'));
+const fale_conosco = fs.readFileSync(path.join(publicDir, 'fale_conosco.html'));
+const not_found_404 = fs.readFileSync(path.join(publicDir, 'not_found_404.html'));
 
 function getHome(req, res) {
   res.end(home);
