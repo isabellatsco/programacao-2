@@ -1,13 +1,5 @@
-const path = require('path');
-
-const pageNotFound = path.join(__dirname, '..', 'public', 'not_found_404.html');
-
 function notFound(req, res) {
-  res.status(404).format({
-    html: () => res.sendFile(pageNotFound),
-    json: () => res.json({ mensagem: 'Recurso não encontrado.' }),
-    default: () => res.json({ mensagem: 'Recurso não encontrado.' }),
-  });
+  res.status(404).json({ mensagem: 'Recurso não encontrado.' });
 }
 
 function errorHandler(error, req, res, next) {
