@@ -1,4 +1,5 @@
 const repository = require('./fornecedores.repository');
+const produtosRepository = require('./produtos.repository');
 
 function naoEncontrado(res) {
   return res.status(404).json({ mensagem: 'Fornecedor não encontrado.' });
@@ -24,6 +25,10 @@ function atualizar(req, res) {
 }
 
 function remover(req, res) {
+  if (produtosRepository.listar().some((produto) => produto._idFornFK === req.id)) {
+    return res.status(409).json({ mensagem: 'Fornecedor possui produtos vinculados.' });
+  }
+
   return repository.remover(req.id) ? res.status(204).end() : naoEncontrado(res);
 }
 
