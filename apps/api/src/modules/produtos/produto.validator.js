@@ -1,4 +1,4 @@
-function validarProduto({ nome, qtdeEstoque, preco }) {
+function validar({ nome, qtdeEstoque, preco }) {
   const erros = [];
 
   if (typeof nome !== 'string' || nome.trim() === '') {
@@ -16,8 +16,8 @@ function validarProduto({ nome, qtdeEstoque, preco }) {
   return erros;
 }
 
-function normalizarProduto({ nome, qtdeEstoque, preco }) {
+function normalizar({ nome, qtdeEstoque, preco }) {
   return { nome: nome.trim(), qtdeEstoque, preco };
 }
 
-module.exports = { validarProduto, normalizarProduto };
+module.exports = { validar, normalizar };
