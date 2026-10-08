@@ -11,7 +11,7 @@ app.use(logger);
 app.use(express.json());
 
 app.use('/', siteRoutes);
-app.use('/produtos', produtosRoutes);
+app.use('/api/produtos', produtosRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
