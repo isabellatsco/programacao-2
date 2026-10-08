@@ -1,4 +1,4 @@
-function validar({ nome, qtdeEstoque, preco }) {
+function validar({ nome, qtdeEstoque, preco, _idFornFK = null }) {
   const erros = [];
 
   if (typeof nome !== 'string' || nome.trim() === '') {
@@ -13,11 +13,15 @@ function validar({ nome, qtdeEstoque, preco }) {
     erros.push('"preco" deve ser um número maior ou igual a zero.');
   }
 
+  if (_idFornFK !== null && (!Number.isInteger(_idFornFK) || _idFornFK <= 0)) {
+    erros.push('"_idFornFK" deve ser null ou um identificador inteiro positivo.');
+  }
+
   return erros;
 }
 
-function normalizar({ nome, qtdeEstoque, preco }) {
-  return { nome: nome.trim(), qtdeEstoque, preco };
+function normalizar({ nome, qtdeEstoque, preco, _idFornFK = null }) {
+  return { nome: nome.trim(), qtdeEstoque, preco, _idFornFK };
 }
 
 module.exports = { validar, normalizar };
