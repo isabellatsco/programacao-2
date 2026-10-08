@@ -1,4 +1,4 @@
-const Produto = require('../models/produto');
+const Produto = require('./produto.model');
 
 const produtos = new Map();
 let proximoId = 1;

@@ -1,4 +1,4 @@
-const repository = require('../repositories/produtos.repository');
+const repository = require('./produtos.repository');
 
 function naoEncontrado(res) {
   return res.status(404).json({ mensagem: 'Produto não encontrado.' });

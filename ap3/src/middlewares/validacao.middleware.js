@@ -1,4 +1,4 @@
-const { validarProduto, normalizarProduto } = require('../validators/produto.validator');
+const { validarProduto, normalizarProduto } = require('../modules/produtos/produto.validator');
 
 function validarId(req, res, next) {
   const id = Number(req.params.id);
