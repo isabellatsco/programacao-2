@@ -1,5 +1,5 @@
 {
-  "name": "http_server2",
+  "name": "atividades-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
