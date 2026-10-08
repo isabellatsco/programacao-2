@@ -1,5 +1,3 @@
-const { validarProduto, normalizarProduto } = require('../modules/produtos/produto.validator');
-
 function validarId(req, res, next) {
   const id = Number(req.params.id);
 
@@ -7,19 +5,21 @@ function validarId(req, res, next) {
     return res.status(400).json({ mensagem: 'Identificador inválido.' });
   }
 
-  req.idProduto = id;
+  req.id = id;
   return next();
 }
 
-function validarCorpoProduto(req, res, next) {
-  const erros = validarProduto(req.body);
+function validarCorpo({ validar, normalizar }) {
+  return (req, res, next) => {
+    const erros = validar(req.body ?? {});
 
-  if (erros.length > 0) {
-    return res.status(400).json({ mensagem: 'Dados inválidos.', erros });
-  }
+    if (erros.length > 0) {
+      return res.status(400).json({ mensagem: 'Dados inválidos.', erros });
+    }
 
-  req.body = normalizarProduto(req.body);
-  return next();
+    req.body = normalizar(req.body);
+    return next();
+  };
 }
 
-module.exports = { validarId, validarCorpoProduto };
+module.exports = { validarId, validarCorpo };

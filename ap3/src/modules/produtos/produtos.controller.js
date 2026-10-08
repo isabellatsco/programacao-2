@@ -14,17 +14,17 @@ function listar(req, res) {
 }
 
 function buscarPorId(req, res) {
-  const produto = repository.buscarPorId(req.idProduto);
+  const produto = repository.buscarPorId(req.id);
   return produto ? res.json(produto) : naoEncontrado(res);
 }
 
 function atualizar(req, res) {
-  const produto = repository.atualizar(req.idProduto, req.body);
+  const produto = repository.atualizar(req.id, req.body);
   return produto ? res.json(produto) : naoEncontrado(res);
 }
 
 function remover(req, res) {
-  return repository.remover(req.idProduto) ? res.status(204).end() : naoEncontrado(res);
+  return repository.remover(req.id) ? res.status(204).end() : naoEncontrado(res);
 }
 
 module.exports = { criar, listar, buscarPorId, atualizar, remover };
