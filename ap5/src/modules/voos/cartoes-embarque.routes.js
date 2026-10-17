@@ -6,6 +6,7 @@ const { paginar } = require('../../middlewares/paginacao.middleware');
 const router = Router();
 
 router.get('/', paginar, controller.listar);
+router.get('/detalhes', paginar, controller.listarDetalhes);
 router.get('/:id', validarId, controller.buscarPorId);
 
 module.exports = router;
