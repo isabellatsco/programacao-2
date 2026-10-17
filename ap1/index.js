@@ -36,6 +36,6 @@ const server = http.createServer((req, res) => {
   handler(req, res);
 });
 
-server.listen(3000, () => {
+server.listen(1000, () => {
   console.log('Servidor iniciado!');
 });
