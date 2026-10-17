@@ -1,0 +1,37 @@
+<%- include('../partials/head', { titulo: 'Produtos' }) %>
+<div class="cabecalho">
+  <h1>Produtos</h1>
+  <a class="botao" href="/produtos/novo">Novo produto</a>
+</div>
+<%- include('../partials/erros', { erros }) %>
+<% if (produtos.length === 0) { %>
+  <p class="vazio">Nenhum produto cadastrado.</p>
+<% } else { %>
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Nome</th><th>Estoque</th><th>Preço</th><th>Fornecedor</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% produtos.forEach((produto) => { %>
+          <tr>
+            <td class="num"><%= produto._id %></td>
+            <td><%= produto.nome %></td>
+            <td class="num"><%= produto.qtdeEstoque %></td>
+            <td class="num"><%= produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) %></td>
+            <td><%= produto.nomeForn %></td>
+            <td class="acoes">
+              <a class="botao secundario" href="/produtos/<%= produto._id %>/editar">Editar</a>
+              <form method="post" action="/produtos/<%= produto._id %>/excluir" onsubmit="return confirm('Excluir este produto?')">
+                <button class="perigo" type="submit">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+  </main>
+</body>
+</html>

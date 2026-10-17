@@ -1,0 +1,16 @@
+<% const editando = Boolean(fornecedor._id); %>
+<%- include('../partials/head', { titulo: editando ? 'Editar fornecedor' : 'Novo fornecedor' }) %>
+<h1><%= editando ? `Editar fornecedor #${fornecedor._id}` : 'Novo fornecedor' %></h1>
+<%- include('../partials/erros', { erros }) %>
+<form class="formulario" method="post" action="<%= editando ? `/fornecedores/${fornecedor._id}` : '/fornecedores' %>">
+  <label>Nome
+    <input name="nome" value="<%= fornecedor.nome %>" required>
+  </label>
+  <div class="acoes-form">
+    <button type="submit">Salvar</button>
+    <a class="botao secundario" href="/fornecedores">Cancelar</a>
+  </div>
+</form>
+  </main>
+</body>
+</html>
