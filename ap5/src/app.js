@@ -2,6 +2,7 @@ const express = require('express');
 
 const logger = require('./middlewares/logger.middleware');
 const authRoutes = require('./modules/auth/auth.routes');
+const usuariosRoutes = require('./modules/usuarios/usuarios.routes');
 const aeronavesRoutes = require('./modules/voos/aeronaves.routes');
 const passageirosRoutes = require('./modules/voos/passageiros.routes');
 const voosRoutes = require('./modules/voos/voos.routes');
@@ -14,6 +15,7 @@ app.use(logger);
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/aeronaves', aeronavesRoutes);
 app.use('/api/passageiros', passageirosRoutes);
 app.use('/api/voos', voosRoutes);
