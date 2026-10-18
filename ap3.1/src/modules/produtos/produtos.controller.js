@@ -18,7 +18,7 @@ async function renderizarFormulario(res, produto, erros = []) {
   return res.status(erros.length > 0 ? 400 : 200).render('produtos/form', { produto, fornecedores, erros });
 }
 
-async function renderizarLista(res, erros = []) {
+async function renderizarLista(res, erros = [], status = 200) {
   const [{ data: produtos }, { data: fornecedores }] = await Promise.all([
     api.get('/produtos'),
     api.get('/fornecedores'),
@@ -30,7 +30,7 @@ async function renderizarLista(res, erros = []) {
     nomeForn: nomesFornecedores.get(produto._idFornFK) ?? '—',
   }));
 
-  return res.status(erros.length > 0 ? 409 : 200).render('produtos/lista', { produtos: produtosComFornecedor, erros });
+  return res.status(status).render('produtos/lista', { produtos: produtosComFornecedor, erros });
 }
 
 function listar(req, res) {
@@ -69,7 +69,7 @@ async function excluir(req, res) {
     await api.delete(`/produtos/${req.params.id}`);
     return res.redirect('/produtos');
   } catch (error) {
-    return renderizarLista(res, mensagensDeErro(error));
+    return renderizarLista(res, mensagensDeErro(error), error.response.status);
   }
 }
 

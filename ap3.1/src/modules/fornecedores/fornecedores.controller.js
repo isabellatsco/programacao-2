@@ -8,9 +8,9 @@ function renderizarFormulario(res, fornecedor, erros = []) {
   return res.status(erros.length > 0 ? 400 : 200).render('fornecedores/form', { fornecedor, erros });
 }
 
-async function renderizarLista(res, erros = []) {
+async function renderizarLista(res, erros = [], status = 200) {
   const { data: fornecedores } = await api.get('/fornecedores');
-  return res.status(erros.length > 0 ? 409 : 200).render('fornecedores/lista', { fornecedores, erros });
+  return res.status(status).render('fornecedores/lista', { fornecedores, erros });
 }
 
 function listar(req, res) {
@@ -49,7 +49,7 @@ async function excluir(req, res) {
     await api.delete(`/fornecedores/${req.params.id}`);
     return res.redirect('/fornecedores');
   } catch (error) {
-    return renderizarLista(res, mensagensDeErro(error));
+    return renderizarLista(res, mensagensDeErro(error), error.response.status);
   }
 }
 
