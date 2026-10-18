@@ -4,6 +4,7 @@ const api = require('./api');
 const Produto = require('../classes/produto');
 
 const LINHA = '--------------------------------------------';
+const MAX_OPCOES = 35;
 
 function exibirCabecalho(...linhas) {
   console.log(LINHA);
@@ -23,9 +24,24 @@ function exibirErro(error) {
   dados.erros?.forEach((erro) => console.log(`  - ${erro}`));
 }
 
+function selecionar(itens, cancel) {
+  if (itens.length === 0) {
+    return -1;
+  }
+
+  const nomes = itens.map(({ _id, nome }) => `${_id} - ${nome}`);
+
+  if (itens.length <= MAX_OPCOES) {
+    return input.keyInSelect(nomes, 'Digite a opção: ', { cancel }); // CANCEL = -1
+  }
+
+  nomes.forEach((nome) => console.log(nome));
+  const id = input.questionInt(`Digite o ID (0 = ${cancel}): `);
+  return itens.findIndex(({ _id }) => _id === id);
+}
+
 function selecionarFornecedor(fornecedores) {
-  const nomes = fornecedores.map(({ _id, nome }) => `${_id} - ${nome}`);
-  const opcao = input.keyInSelect(nomes, 'Digite a opção: ', { cancel: 'Sem fornecedor' }); // CANCEL = -1
+  const opcao = selecionar(fornecedores, 'Sem fornecedor');
   return opcao >= 0 ? fornecedores[opcao]._id : null;
 }
 
@@ -67,8 +83,8 @@ async function listarProdutosComFornecedores() {
 async function adicionarProduto() {
   const produto = new Produto();
   produto.nome = input.question('Digite o nome do produto: ');
-  produto.qtdeEstoque = parseInt(input.question('Digite a quantidade em estoque: '));
-  produto.preco = parseFloat(input.question('Digite o preço: '));
+  produto.qtdeEstoque = input.questionInt('Digite a quantidade em estoque: ');
+  produto.preco = input.questionFloat('Digite o preço: ');
 
   try {
     // Lista fornecedores para obter o _id do fornecedor que fornece o produto
@@ -88,13 +104,14 @@ async function listarEditarProdutos() {
   try {
     const { data: produtos } = await api.get('/produtos');
 
+    if (produtos.length === 0) {
+      console.log('Nenhum produto cadastrado.');
+      return;
+    }
+
     console.log('Selecione abaixo o produto para Alterar/Excluir:');
     exibirCabecalho('                 PRODUTOS', 'ID - NOME');
-    const opcaoProduto = input.keyInSelect(
-      produtos.map(({ _id, nome }) => `${_id} - ${nome}`),
-      'Digite a opção: ',
-      { cancel: 'Sair' },
-    ); // CANCEL = -1
+    const opcaoProduto = selecionar(produtos, 'Sair');
 
     if (opcaoProduto === -1) {
       console.log('Operação de "Alteração/Exclusão" CANCELADA!');
@@ -116,8 +133,8 @@ async function listarEditarProdutos() {
         console.log('Pressione ENTER para manter o valor atual.');
         const alterado = new Produto(
           input.question(`NOME [${produto.nome}]: `, { defaultInput: produto.nome }),
-          parseInt(input.question(`QTDE ESTOQUE [${produto.qtdeEstoque}]: `, { defaultInput: String(produto.qtdeEstoque) })),
-          parseFloat(input.question(`PREÇO [${produto.preco}]: `, { defaultInput: String(produto.preco) })),
+          input.questionInt(`QTDE ESTOQUE [${produto.qtdeEstoque}]: `, { defaultInput: String(produto.qtdeEstoque) }),
+          input.questionFloat(`PREÇO [${produto.preco}]: `, { defaultInput: String(produto.preco) }),
         );
 
         const { data: fornecedores } = await api.get('/fornecedores');
