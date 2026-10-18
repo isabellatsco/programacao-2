@@ -1,12 +1,8 @@
 const prisma = require('../../lib/prisma');
+const listarPaginado = require('../../lib/listar-paginado');
 
-async function listar({ pagina, limite, skip, take }) {
-  const [total, dados] = await prisma.$transaction([
-    prisma.boarding_pass.count(),
-    prisma.boarding_pass.findMany({ orderBy: { boarding_pass_id: 'asc' }, skip, take }),
-  ]);
-
-  return { pagina, limite, total, dados };
+function listar(paginacao) {
+  return listarPaginado(prisma.boarding_pass, { boarding_pass_id: 'asc' }, paginacao);
 }
 
 function buscarPorId(id) {
